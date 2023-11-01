@@ -1,0 +1,11 @@
+.clang*
+b__*
+*.cgpr
+messages.txt
+*-loc.xml
+*.ali
+*.stderr
+*.stdout
+*.o
+*.bexch
+*cswi
