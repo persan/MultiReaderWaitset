@@ -1,3 +1,4 @@
+with DDS;
 package MultiReaderWaitset.Topic_Names is
 
    String1_Topic_Name : constant DDS.String := DDS.To_DDS_String ("demo/string/1");
