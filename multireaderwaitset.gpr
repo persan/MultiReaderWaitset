@@ -7,12 +7,15 @@ project Multireaderwaitset is
    for Object_Dir use ".obj";
    for Exec_Dir use "bin";
 
+   for Main use project'Main & ("multireaderwaitset-publisher-main.adb");
+   for Main use project'Main & ("multireaderwaitset-subscriper-main.adb");
+
    package Builder is
       for Switches ("ada") use ("-s", "-j0", "-g");
    end Builder;
 
    package Compiler is
-      for Switches ("ada") use ("-g", "-gnatX", "-gnatwa", "-gnatyaAbBcdfhiklnOprtuxz");
+      for Switches ("ada") use ("-g", "-gnatwa", "-gnatyaAbBcdfhiklnOprtuxz");
    end Compiler;
 
    package Binder is
@@ -23,7 +26,6 @@ project Multireaderwaitset is
       for Switches ("ada") use ("-g");
    end Linker;
 
-   for Main use ("multireaderwaitset-publisher.adb", "multireaderwaitset-subscriper.adb");
 
 end Multireaderwaitset;
 

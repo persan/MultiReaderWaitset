@@ -1,4 +1,3 @@
-procedure MultiReaderWaitset.Publisher is
-begin
-   
+package body MultiReaderWaitset.Publisher is
+
 end MultiReaderWaitset.Publisher;
