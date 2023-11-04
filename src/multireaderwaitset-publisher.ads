@@ -5,8 +5,11 @@ with DDS.String_DataWriter;
 with DDS.Octets_DataWriter;
 
 package MultiReaderWaitset.Publisher is
+
    Factory            : constant DDS.DomainParticipantFactory.Ref_Access := DDS.DomainParticipantFactory.Get_Instance;
+
    Particpant         : DDS.DomainParticipant.Ref_Access;
+
    StringTopic1       : DDS.Topic.Ref_Access;
    StringTopic2       : DDS.Topic.Ref_Access;
    OctetsTopic1       : DDS.Topic.Ref_Access;
