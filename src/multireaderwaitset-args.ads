@@ -1,4 +1,3 @@
-with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with GNATCOLL.Opt_Parse;    use GNATCOLL.Opt_Parse;
 with DDS;
 package MultiReaderWaitset.Args is

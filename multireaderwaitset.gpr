@@ -7,7 +7,7 @@ project Multireaderwaitset is
 
    for Exec_Dir use "bin";
 
-   for Main use project'Main & ("multireaderwaitset-subscriper-main.adb");
+   for Main use project'Main & ("multireaderwaitset-subscriber-main.adb");
    for Main use project'Main & ("multireaderwaitset-publisher-main.adb");
 
    package Builder is
