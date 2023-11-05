@@ -30,8 +30,8 @@ project MultiReaderWaitset is
    end Linker;
 
    package Naming is
-      for Spec_Suffix ("MarkDown") use ".md";
-      for Spec_Suffix ("xml") use ".xml";
+      for Body_Suffix ("MarkDown") use ".md";
+      for Body_Suffix ("xml") use ".xml";
    end Naming;
 
 end MultiReaderWaitset;
