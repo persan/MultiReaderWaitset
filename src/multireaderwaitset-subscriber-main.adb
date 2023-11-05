@@ -26,7 +26,7 @@ procedure MultiReaderWaitset.Subscriber.Main is
                                    DDS.SAMPLE_LOST_STATUS or
                                        DDS.SAMPLE_REJECTED_STATUS or
                                            DDS.LIVELINESS_LOST_STATUS;
-   Reader  : DDS.Datareader.Ref_Access;
+   Reader          : DDS.Datareader.Ref_Access;
 begin
    if Args.Parser.Parse then
 
@@ -56,8 +56,8 @@ begin
       Ws.Attach_Condition (OctetsReader2.Create_Readcondition (DDS.NOT_READ_SAMPLE_STATE, DDS.ANY_VIEW_STATE, DDS.ALIVE_INSTANCE_STATE));
 
       --  Start polling all the readers in this thread.
-      --  while getting errors as "interupts" i nthe listners.
-      Particpant.Enable;
+      --  while getting errors as "interupts" in the listners.
+
       while Continue loop
 
          Ws.Wait (Conditions'Unchecked_Access, 1.00);

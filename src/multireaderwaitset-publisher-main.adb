@@ -12,6 +12,7 @@ procedure MultiReaderWaitset.Publisher.Main is
    O2_Data : Standard.String := "O1";
    O1      : constant DDS.Octets := DDS.Octets'(Length => 2, Value => O1_Data'Address);
    O2      : constant DDS.Octets := DDS.Octets'(Length => 2, Value => O2_Data'Address);
+
 begin
    if Args.Parser.Parse then
       Particpant := Factory.Create_Participant_With_Profile (Args.DomainId.Get, Args.Library.Get.all, Args.Profile.Get.all);
@@ -25,7 +26,7 @@ begin
       StringWriter2 := DDS.String_DataWriter.Ref_Access (Particpant.Create_DataWriter_With_Profile (StringTopic2, Args.Library.Get.all, Args.Profile.Get.all));
       OctetsWriter1 := DDS.Octets_DataWriter.Ref_Access (Particpant.Create_DataWriter_With_Profile (OctetsTopic1, Args.Library.Get.all, Args.Profile.Get.all));
       OctetsWriter2 := DDS.Octets_DataWriter.Ref_Access (Particpant.Create_DataWriter_With_Profile (OctetsTopic2, Args.Library.Get.all, Args.Profile.Get.all));
-      Particpant.Enable;
+
       delay 1.0;
       StringWriter1.Write (D1, DDS.Null_InstanceHandle_T);
       StringWriter2.Write (D2, DDS.Null_InstanceHandle_T);

@@ -9,3 +9,4 @@ messages.txt
 *.o
 *.bexch
 *cswi
+.#*#
