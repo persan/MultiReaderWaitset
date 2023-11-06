@@ -27,6 +27,7 @@ procedure MultiReaderWaitset.Subscriber.Main is
                                        DDS.SAMPLE_REJECTED_STATUS or
                                            DDS.LIVELINESS_LOST_STATUS;
    Reader          : DDS.Datareader.Ref_Access;
+
 begin
    if Args.Parser.Parse then
 

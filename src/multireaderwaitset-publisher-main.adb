@@ -5,13 +5,15 @@ with DDS.Octets_TypeSupport;
 with MultiReaderWaitset.Topic_Names; use MultiReaderWaitset.Topic_Names;
 
 procedure MultiReaderWaitset.Publisher.Main is
+
    D1 : constant DDS.String := DDS.To_DDS_String ("D1");
    D2 : constant DDS.String := DDS.To_DDS_String ("D2");
 
-   O1_Data : Standard.String := "O1";
-   O2_Data : Standard.String := "O1";
-   O1      : constant DDS.Octets := DDS.Octets'(Length => 2, Value => O1_Data'Address);
-   O2      : constant DDS.Octets := DDS.Octets'(Length => 2, Value => O2_Data'Address);
+   O1_Data : aliased constant String_2 := "O1";
+   O2_Data : aliased constant String_2 := "O1";
+
+   O1      : constant DDS.Octets := String_As_Octets (O1_Data);
+   O2      : constant DDS.Octets := String_As_Octets (O2_Data);
 
 begin
    if Args.Parser.Parse then

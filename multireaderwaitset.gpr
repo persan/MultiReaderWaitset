@@ -18,7 +18,7 @@ project MultiReaderWaitset is
    package Compiler is
       for Driver ("MarkDown") use "";
       for Driver ("xml") use "";
-      for Switches ("ada") use ("-g", "-gnatX", "-gnatwa", "-gnatyaAbBcdfhiklnOprtux");
+      for Switches ("ada") use ("-g", "-gnatX0", "-gnatwa", "-gnatyaAbBcdfhiklnOprtux");
    end Compiler;
 
    package Binder is
