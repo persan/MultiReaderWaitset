@@ -33,7 +33,7 @@ package body MultiReaderWaitset.Subscriber is
             end On_String;
          or
             accept On_Octets (Name : String; Data : DDS.Octets) do
-               Ada.Text_IO.Put_Line (Name & ":" & GNAT.Source_Info.Enclosing_Entity & ":" & Data.Length'Image & "/" & String (Octets_As_String (Data)));
+               Ada.Text_IO.Put_Line (Name & ":" & GNAT.Source_Info.Enclosing_Entity & ":" & Data.Length'Image & "/" & String (Octets_As_String (Data).all));
             end On_Octets;
          or
             accept Close;

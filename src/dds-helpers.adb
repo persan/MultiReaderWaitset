@@ -3,7 +3,7 @@ package body DDS.Helpers is
    -------------------------------
    -- Element_As_Octets_Generic --
    -------------------------------
-   function Element_As_Octets_Generic (Item : aliased Element) return DDS.Octets is
+   function Element_As_Octets_Generic (Item : not null access constant Element) return DDS.Octets is
    begin
       return Ret : DDS.Octets do
          Ret.Length := Item'Size / DDS.Octet'Size;
@@ -15,13 +15,13 @@ package body DDS.Helpers is
    -------------------------------
 
    function Octets_As_Element_Generic
-     (Item : aliased DDS.Octets) return Element
+     (Item : aliased DDS.Octets) return not null access Element
    is
-      Ret : Element with Import => True, Address => Item.Value;
+      Ret : aliased Element with Import => True, Address => Item.Value;
    begin
       raise Constraint_Error with "Length does not match Element" when
         Item.Length * Octet'Size /=  Element'Size;
-      return Ret;
+      return Ret'Unrestricted_Access;
    end Octets_As_Element_Generic;
 
 end DDS.Helpers;

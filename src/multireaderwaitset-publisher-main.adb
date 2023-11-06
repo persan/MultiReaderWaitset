@@ -9,11 +9,11 @@ procedure MultiReaderWaitset.Publisher.Main is
    D1 : constant DDS.String := DDS.To_DDS_String ("D1");
    D2 : constant DDS.String := DDS.To_DDS_String ("D2");
 
-   O1_Data : aliased constant String_2 := "O1";
-   O2_Data : aliased constant String_2 := "O1";
+   O1_Data : aliased constant String_7 := "O1_Data";
+   O2_Data : aliased constant String_7 := "O2_Data";
 
-   O1      : constant DDS.Octets := String_As_Octets (O1_Data);
-   O2      : constant DDS.Octets := String_As_Octets (O2_Data);
+   O1      : constant DDS.Octets := String_As_Octets (O1_Data'Unchecked_Access);
+   O2      : constant DDS.Octets := String_As_Octets (O2_Data'Unchecked_Access);
 
 begin
    if Args.Parser.Parse then
