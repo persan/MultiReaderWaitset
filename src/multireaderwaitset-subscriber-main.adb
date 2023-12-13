@@ -7,9 +7,12 @@ with Dds.ConditionSeq;
 with MultiReaderWaitset.Topic_Names; use MultiReaderWaitset.Topic_Names;
 with GNAT.Ctrl_C;
 with Ada.Tags;
+with GNAT.Traceback.Symbolic;
+with GNAT.Exception_Traces;
 
 procedure MultiReaderWaitset.Subscriber.Main is
    use type DDS.StatusKind;
+   use type DDS.Long;
 
    procedure On_Ctrl_C is
    begin
@@ -19,7 +22,8 @@ procedure MultiReaderWaitset.Subscriber.Main is
    end On_Ctrl_C;
 
    Conditions      : aliased Dds.ConditionSeq.Sequence;
-   ERROR_STATUSES  : constant DDS.StatusKind :=
+
+   ERROR_STATUSES  : constant DDS.StatusKind := -- To get an interutpt on errors.
                        DDS.INCONSISTENT_TOPIC_STATUS or
                            DDS.REQUESTED_DEADLINE_MISSED_STATUS or
                                DDS.REQUESTED_INCOMPATIBLE_QOS_STATUS or
@@ -27,10 +31,11 @@ procedure MultiReaderWaitset.Subscriber.Main is
                                        DDS.SAMPLE_REJECTED_STATUS or
                                            DDS.LIVELINESS_LOST_STATUS;
    Reader          : DDS.Datareader.Ref_Access;
-
+   Status          : DDS.SubscriptionMatchedStatus;
 begin
    if Args.Parser.Parse then
-
+      GNAT.Exception_Traces.Trace_On (GNAT.Exception_Traces.Every_Raise);
+      GNAT.Exception_Traces.Set_Trace_Decorator (GNAT.Traceback.Symbolic.Symbolic_Traceback_No_Hex'Access);
       GNAT.Ctrl_C.Install_Handler (On_Ctrl_C'Unrestricted_Access);
 
       --  --------------------------
@@ -56,9 +61,14 @@ begin
       Ws.Attach_Condition (OctetsReader1.Create_Readcondition (DDS.NOT_READ_SAMPLE_STATE, DDS.ANY_VIEW_STATE, DDS.ALIVE_INSTANCE_STATE));
       Ws.Attach_Condition (OctetsReader2.Create_Readcondition (DDS.NOT_READ_SAMPLE_STATE, DDS.ANY_VIEW_STATE, DDS.ALIVE_INSTANCE_STATE));
 
+      --  Wait until there are pubishers disciverd on all readers.
+      StringReader1.Wait (DDS.SUBSCRIPTION_MATCH_STATUS, 10.0);
+      StringReader2.Wait (DDS.SUBSCRIPTION_MATCH_STATUS, 10.0);
+      OctetsReader1.Wait (DDS.SUBSCRIPTION_MATCH_STATUS, 10.0);
+      OctetsReader2.Wait (DDS.SUBSCRIPTION_MATCH_STATUS, 10.0);
+
       --  Start polling all the readers in this thread.
       --  while getting errors as "interupts" in the listners.
-
       while Continue loop
 
          Ws.Wait (Conditions'Unchecked_Access, 1.00);
@@ -69,18 +79,22 @@ begin
                Reader.Get_Listener.On_Data_Available (DDS.DataReaderListener.DataReader_Access (Reader));
             end if;
          end loop;
+         OctetsReader2.Get_Subscription_Matched_Status (Status);
+         if Status.Current_Count = 0 then
+            Continue := False;
+         end if;
       end loop;
 
-      --  Clean up the application
-      Particpant.Delete_DataReader (StringReader1);
-      Particpant.Delete_DataReader (StringReader2);
-      Particpant.Delete_DataReader (OctetsReader1);
-      Particpant.Delete_DataReader (OctetsReader2);
+      declare
+         Attached_Conditions : aliased DDS.ConditionSeq.Sequence;
+      begin
+         Ws.Get_Conditions (Attached_Conditions'Unrestricted_Access);
+         for I of Attached_Conditions loop
+            Ws.Detach_Condition (I.all);
+         end loop;
+      end;
 
-      Particpant.Delete_Topic (StringTopic1);
-      Particpant.Delete_Topic (StringTopic2);
-      Particpant.Delete_Topic (OctetsTopic1);
-      Particpant.Delete_Topic (OctetsTopic2);
+      --  Clean up the application
       Particpant.Delete_Contained_Entities;
       Factory.Delete_Participant (Particpant);
 

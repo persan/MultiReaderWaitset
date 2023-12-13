@@ -37,7 +37,7 @@ package MultiReaderWaitset.Args is
       Default_Val => Profile_Deafult,
       Help        => "Profile to use, default:" & DDS.To_Standard_String (Profile_Deafult.all));
 
-   Execution_Time_Deafult : constant Duration := 10.0;
+   Execution_Time_Deafult : constant Duration := 2.0;
    package Execution_Time is new Parse_Option
      (Parser      => Parser,
       Short       => "-t",

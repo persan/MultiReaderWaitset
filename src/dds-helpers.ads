@@ -4,6 +4,8 @@ package DDS.Helpers is
       type Element is private;
       pragma Compile_Time_Error (Element'Has_Access_Values, "Element may not contain pointers");
    function Element_As_Octets_Generic (Item : not null access constant Element) return DDS.Octets;
+   --  Maps the element referenced by item direct to octets.
+   -- ------------------------------------------------------------------------------------------
 
    generic
       type Element is private;
