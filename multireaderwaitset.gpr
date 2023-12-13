@@ -1,12 +1,12 @@
+with "gnatcoll_syslog.gpr";
 with "dds-ada.gpr";
 with "gnatcoll.gpr";
 
 project MultiReaderWaitset is
 
-   for Languages use ("Ada", "xml", "MarkDown");
+   for Languages use ("Ada", "Xml");
    for Source_Dirs use (".", "src/**");
    for Object_Dir use ".obj";
-
    for Exec_Dir use "bin";
    for Main use project'Main & ("multireaderwaitset-subscriber-main.adb");
    for Main use project'Main & ("multireaderwaitset-publisher-main.adb");
@@ -16,7 +16,7 @@ project MultiReaderWaitset is
    end Builder;
 
    package Compiler is
-      for Driver ("MarkDown") use "";
+      for Driver ("markdown") use "";
       for Driver ("xml") use "";
       for Switches ("ada") use ("-g", "-gnatX0", "-gnatwa", "-gnatyaAbBcdfhiklnOprtux");
    end Compiler;
@@ -30,7 +30,7 @@ project MultiReaderWaitset is
    end Linker;
 
    package Naming is
-      for Body_Suffix ("MarkDown") use ".md";
+      for Body_Suffix ("markdown") use ".md";
       for Body_Suffix ("xml") use ".xml";
    end Naming;
 

@@ -1,19 +1,15 @@
 pragma Ada_2022;
 with DDS.DataReader;
+with GNATCOLL.Traces.Syslog;
 package body DDS.Syslog_Error_DataReader_Listner is
 
    procedure Log_Message
      (Self       : not null access Ref;
       Message    : Standard.String) is
-      procedure Syslog (Prio : Integer; Fmt : chars_ptr) with
-        Import => True,
-        External_Name => "syslog",
-        Convention => C_Variadic_1;
-      LOG_ERR : constant := 3;
-      Msg     : chars_ptr := New_String (Message);
    begin
-      Syslog (LOG_ERR, Msg);
-      Free (Msg);
+      GNATCOLL.Traces.Syslog.Syslog (Facility => GNATCOLL.Traces.Syslog.Local0,
+                                     Level    => GNATCOLL.Traces.Syslog.Warning,
+                                     Message  => Message);
    end;
 
    ----------------------------------
